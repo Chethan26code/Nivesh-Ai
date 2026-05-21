@@ -43,6 +43,16 @@ const RecommendationsPage = {
                 <h1>⭐ Stock Recommendations</h1>
                 <p>AI-powered signals matched to your ${riskAppetite.toLowerCase()} risk profile • Investable: ${Utils.formatCurrency(investableAmount)}</p>
             </div>
+            
+            ${Utils.isBeginnerMode() ? `
+            <div class="grace-banner">
+                <div class="grace-icon">🛡️</div>
+                <div class="grace-text">
+                    <h4>Beginner Protection Active</h4>
+                    <p>You are in your 5-Day Grace Period. High-risk trades are restricted to protect your portfolio.</p>
+                </div>
+            </div>
+            ` : ''}
 
             <div class="filters-bar">
                 <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:600;">Filters:</span>
@@ -180,9 +190,10 @@ const RecommendationsPage = {
 
                     <div class="modal-footer">
                         <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Close</button>
-                        <button class="btn btn-success" onclick="this.closest('.modal-overlay').remove(); window.location.hash='#portfolio'; PortfolioPage.openBuyModal(${stock.id}, '${stock.symbol}');">
-                            Buy ${stock.symbol}
-                        </button>
+                        ${(Utils.isBeginnerMode() && stock.riskLevel === 'HIGH') 
+                            ? `<button class="btn btn-secondary" disabled style="opacity:0.5; cursor:not-allowed;" title="High Risk stocks are restricted during your first 5 days.">Restricted (High Risk)</button>` 
+                            : `<button class="btn btn-success" onclick="this.closest('.modal-overlay').remove(); window.location.hash='#portfolio'; PortfolioPage.openBuyModal(${stock.id}, '${stock.symbol}');">Buy ${stock.symbol}</button>`
+                        }
                     </div>
                 </div>
             `;

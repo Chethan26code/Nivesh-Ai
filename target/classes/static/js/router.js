@@ -4,21 +4,39 @@
 
 const Router = {
     routes: {
+        'landing': { render: (c) => LandingPage.render(c), auth: false },
+        'auth': { render: (c) => AuthPage.render(), auth: false },
         'dashboard': { render: (c) => DashboardPage.render(c), auth: true },
         'recommendations': { render: (c) => RecommendationsPage.render(c), auth: true },
         'portfolio': { render: (c) => PortfolioPage.render(c), auth: true },
         'profile': { render: (c) => ProfilePage.render(c), auth: true },
+        'academy': { render: (c) => AcademyPage.render(c), auth: true },
     },
 
     init() {
+        this.setupEvents();
+        const hash = window.location.hash.slice(1) || '';
+        
         if (!API.isAuthenticated()) {
-            document.getElementById('auth-page').style.display = '';
-            document.getElementById('app').style.display = 'none';
-            AuthPage.render();
+            if (hash === 'auth') {
+                document.getElementById('landing-page').style.display = 'none';
+                document.getElementById('auth-page').style.display = '';
+                document.getElementById('app').style.display = 'none';
+                AuthPage.render();
+            } else {
+                document.getElementById('landing-page').style.display = '';
+                document.getElementById('auth-page').style.display = 'none';
+                document.getElementById('app').style.display = 'none';
+                window.location.hash = '#landing';
+                LandingPage.render(document.getElementById('landing-page'));
+            }
+            // Initialize chatbot globally if not done
+            Chatbot.init();
             return;
         }
 
-        // Show app, hide auth
+        // Show app, hide others
+        document.getElementById('landing-page').style.display = 'none';
         document.getElementById('auth-page').style.display = 'none';
         document.getElementById('app').style.display = 'flex';
 
@@ -30,12 +48,14 @@ const Router = {
             document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
         }
 
-        // Setup event listeners
-        this.setupEvents();
+        // Initialize Chatbot
+        Chatbot.init();
+
+        // Events already setup initially
 
         // Navigate to current hash
-        const hash = window.location.hash.slice(1) || 'dashboard';
-        this.navigate(hash);
+        const currentHash = window.location.hash.slice(1) || 'dashboard';
+        this.navigate(currentHash === 'landing' || currentHash === 'auth' ? 'dashboard' : currentHash);
     },
 
     navigate(page) {
@@ -51,18 +71,35 @@ const Router = {
             return;
         }
 
-        // Update active nav
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.toggle('active', item.dataset.page === page);
-        });
+        // Handle full-page routes vs app-content routes
+        if (page === 'landing') {
+            document.getElementById('landing-page').style.display = '';
+            document.getElementById('auth-page').style.display = 'none';
+            document.getElementById('app').style.display = 'none';
+            LandingPage.render(document.getElementById('landing-page'));
+        } else if (page === 'auth') {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('auth-page').style.display = '';
+            document.getElementById('app').style.display = 'none';
+            AuthPage.render();
+        } else {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('auth-page').style.display = 'none';
+            document.getElementById('app').style.display = 'flex';
 
-        // Render page
-        const container = document.getElementById('page-content');
-        container.innerHTML = Utils.loading();
-        route.render(container);
+            // Update active nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === page);
+            });
 
-        // Close mobile sidebar
-        document.getElementById('sidebar').classList.remove('open');
+            // Render page
+            const container = document.getElementById('page-content');
+            container.innerHTML = Utils.loading();
+            route.render(container);
+
+            // Close mobile sidebar
+            document.getElementById('sidebar').classList.remove('open');
+        }
 
         // Update hash without triggering hashchange
         if (window.location.hash !== '#' + page) {
@@ -71,6 +108,9 @@ const Router = {
     },
 
     setupEvents() {
+        if (this._eventsBound) return;
+        this._eventsBound = true;
+
         // Navigation clicks
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', (e) => {

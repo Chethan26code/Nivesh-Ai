@@ -24,6 +24,16 @@ const Utils = {
         return parseFloat(num).toLocaleString('en-US');
     },
 
+    isBeginnerMode() {
+        const user = API.getUser();
+        if (!user || !user.createdAt) return false;
+        // User is in beginner mode if created in the last 5 days
+        const createdDate = new Date(user.createdAt);
+        const diffTime = Math.abs(new Date() - createdDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        return diffDays <= 5;
+    },
+
     pnlClass(value) {
         const num = parseFloat(value);
         if (num > 0) return 'pnl-positive';

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AetherWealth | The Profit Dimension: Multi-Field</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#201f20",
+                    "tertiary": "#ddb7ff",
+                    "primary-container": "#8083ff",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "surface-container-low": "#1c1b1c",
+                    "on-tertiary-fixed": "#2c0051",
+                    "on-background": "#e5e2e3",
+                    "inverse-surface": "#e5e2e3",
+                    "outline-variant": "#464554",
+                    "on-secondary": "#003640",
+                    "outline": "#908fa0",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "on-surface": "#e5e2e3",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-surface-variant": "#c7c4d7",
+                    "tertiary-fixed": "#f0dbff",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#353436",
+                    "tertiary-container": "#b76dff",
+                    "background": "#131314",
+                    "surface-dim": "#131314",
+                    "on-secondary-fixed": "#001f26",
+                    "secondary-fixed-dim": "#4cd7f6",
+                    "secondary": "#4cd7f6",
+                    "on-secondary-fixed-variant": "#004e5c",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#353436",
+                    "surface-container-lowest": "#0e0e0f",
+                    "on-primary-container": "#0d0096",
+                    "surface-tint": "#c0c1ff",
+                    "primary-fixed": "#e1e0ff",
+                    "on-tertiary-fixed-variant": "#6900b3",
+                    "secondary-container": "#03b5d3",
+                    "on-tertiary-container": "#400071",
+                    "on-secondary-container": "#00424e",
+                    "primary": "#c0c1ff",
+                    "on-primary": "#1000a9",
+                    "surface-bright": "#3a393a",
+                    "secondary-fixed": "#acedff",
+                    "on-tertiary": "#490080",
+                    "on-primary-fixed": "#07006c",
+                    "inverse-on-surface": "#313031",
+                    "tertiary-fixed-dim": "#ddb7ff",
+                    "surface-container-high": "#2a2a2b",
+                    "inverse-primary": "#494bd6",
+                    "surface": "#131314"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "label-md": ["Sora"],
+                    "display-lg": ["Sora"],
+                    "headline-md": ["Sora"],
+                    "headline-lg-mobile": ["Sora"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Sora"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #0A0A0B;
+            color: #e5e2e3;
+            overflow-x: hidden;
+            perspective: 2000px;
+        }
+
+        .kinetic-grid {
+            background-image: 
+                linear-gradient(rgba(192, 193, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(192, 193, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(70deg) translateY(-300px);
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) translateZ(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(192, 193, 255, 0.1);
+            border-color: rgba(192, 193, 255, 0.3);
+        }
+
+        .glow-cyan { text-shadow: 0 0 20px rgba(76, 215, 246, 0.8); }
+        .glow-error { text-shadow: 0 0 20px rgba(255, 180, 171, 0.8); }
+        .glow-primary { text-shadow: 0 0 25px rgba(192, 193, 255, 0.6); }
+
+        .advisor-background {
+            filter: drop-shadow(0 0 50px rgba(128, 131, 255, 0.2));
+            opacity: 0.15;
+            pointer-events: none;
+            mix-blend-mode: lighten;
+        }
+
+        #cloud-field {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            perspective: 1200px; /* Enhanced depth perception */
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .cloud-number {
+            position: absolute;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+            user-select: none;
+            white-space: nowrap;
+            will-change: transform, opacity;
+            transition: opacity 0.3s ease;
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(19, 19, 20, 0.8);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .ticker-scroll {
+            display: inline-flex;
+            white-space: nowrap;
+            padding-right: 100%;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .ticker-item {
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<div class="kinetic-grid"></div>
+<header class="fixed top-0 w-full z-[100] bg-surface/80 backdrop-blur-3xl border-b border-white/10 shadow-[0_0_30px_rgba(192,193,255,0.1)]">
+<div class="flex justify-between items-center h-20 px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">AetherWealth</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md transition-colors duration-300" href="#">Portfolio</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Markets</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Insights</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Education</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded-full font-label-md text-label-md active:scale-95 transition-transform">Start Investing</button>
+<img alt="User profile" class="w-10 h-10 rounded-full border border-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANcsZwvwb0_CoY3zz4EwnVddTdrCW1Z-fjKaEUhGlX0uomNfDGii_pF2CmmQmtRR8aO9WzjSD_ruDWju-uu_rYJwEnGmjxQ3suuN1HsDEht2SQ6og7_UtzFnSVIi-U9WNgz_q4wtQIGRHgPjKjt1foK_7qI9_H7WvNwvDfVfRX9YvT8e-JkTQgGi245NirO7RBOS6FNgafZLhMAi7xvkWuk-Rpi6RP9WnVcWhHXETZq9-cZ_YkPL3CxjjQVZjFLMqWbsreEcgk4H8"/>
+</div>
+</div>
+</header>
+<main class="relative">
+<!-- 3D Cloud Field -->
+<div id="cloud-field"></div>
+<section class="relative px-margin-desktop max-w-container-max mx-auto min-h-screen flex flex-col items-center justify-center text-center pt-20 overflow-visible">
+<!-- Integrated AI Advisor Sculpture -->
+<div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+<img alt="AI Advisor Sculpture" class="advisor-background max-w-[1200px] w-full h-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uijixavXL-Bjc_o4030pT3kxU7MiG4_wsju8_rLhldQnx2SxheHmLLHmCRdvrMfAESWJwIg8lvsv1W2OSIqhPq0PWxPzpbjYa57Hp0WoOB6zUpb0OHDwsJXqnZHGQQUeTtQNwwdtI9OwTWaQAFcOd_YmRuysyL9S1rVYnywNHTW00955C8MxRjzS38AwNR1cGZpWXus4k4aa7hHoJkrI4HrIEdUHhWTcPAJ3dlrGnZe03o5AFoRUTrRvw"/>
+</div>
+<div class="relative z-10 space-y-8 max-w-5xl">
+<span class="inline-block px-4 py-1.5 bg-secondary-container/20 border border-secondary/30 rounded-full text-secondary font-label-md text-label-md tracking-widest uppercase">
+                Dimension 01: Profit Vector
+            </span>
+<h1 class="font-display-lg text-display-lg tracking-tighter leading-none glow-primary">
+                The Profit Dimension: <br/><span class="text-primary italic">Multi-Field</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto backdrop-blur-sm bg-background/20 py-2 rounded-lg">
+                Navigate the swarm of real-time performance clusters. Experience wealth generation through a multi-dimensional cloud of hyper-liquid assets.
+            </p>
+<div class="pt-8 flex gap-4 justify-center">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-label-md text-label-md hover:shadow-[0_0_40px_rgba(192,193,255,0.5)] transition-all transform hover:scale-105">Enter Field</button>
+<button class="bg-white/5 border border-white/10 px-10 py-4 rounded-xl font-label-md text-label-md hover:bg-white/10 transition-all">Spatial Insights</button>
+</div>
+</div>
+</section>
+<!-- Live Alpha Stream Ticker -->
+<div class="ticker-wrap relative z-50">
+<div class="ticker-scroll" id="alpha-ticker">
+<!-- Dynamic ticker items will be added here -->
+</div>
+</div>
+<section class="py-40 px-margin-desktop max-w-container-max mx-auto relative z-10">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-4">Live Performance</h2>
+<p class="text-on-surface-variant font-body-md">Real-time asset optimization across the multichain ecosystem.</p>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-12 md:col-span-8 glass-card rounded-3xl p-8 h-[400px] flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-secondary font-label-md uppercase tracking-wider">AGGREGATE YIELD</span>
+<h3 class="font-headline-md text-headline-md mt-2">Strategic Resonance</h3>
+</div>
+<div class="bg-secondary/10 text-secondary px-4 py-2 rounded-lg font-bold text-xl hover:scale-110 transition-transform cursor-default glow-cyan">
+                        +12.5%
+                    </div>
+</div>
+<div class="w-full h-48 bg-gradient-to-t from-secondary/10 to-transparent rounded-xl flex items-end overflow-hidden p-1">
+<div class="flex-1 flex items-end gap-1 h-full">
+<div class="flex-1 bg-secondary/20 h-1/4 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 h-2/4 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 h-1/3 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 h-3/4 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 h-1/2 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 h-5/6 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/60 h-full rounded-t-sm shadow-[0_0_15px_rgba(76,215,246,0.3)]"></div>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 glass-card rounded-3xl p-8 h-[400px] flex flex-col justify-center items-center text-center gap-6 group">
+<div class="w-24 h-24 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md mb-2">Auto-Optimize</h3>
+<p class="text-on-surface-variant font-body-md">AI adjusts your risk profile every 600ms based on global sentiment.</p>
+</div>
+<button class="mt-4 text-primary font-bold border-b border-primary/20 hover:border-primary transition-all">CONFIGURE AI</button>
+</div>
+</div>
+</section>
+<section class="py-40 bg-surface-container-low/30 relative z-10">
+<div class="px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<div class="absolute -inset-10 bg-primary/10 blur-[100px] rounded-full"></div>
+<img alt="Quantum Processor" class="rounded-3xl shadow-2xl relative z-10 border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1ndMpZkKdZVZRnhlFaWKHcxokFG5LoGrykOC0xzEagNAc-lJyc227Wl5qdeYiT9rd6TqaR5GR_6UOKMwUHPohHf-nSjfmYz0_FVIKMTnUbGJGhSpPNYgvMDFi1gDntZnro-Qi4JRzTYJjsfNWdhdpqmwFID-PVrlN2v8wqfCNbSUhWF_U0-2h6IEZzzrU0GhXO2I2fyTZzsnlWYD7Dat0DkqzrtnjZ5UUu7adXHstSrR_mqCz8al3L77PoYiLvaFQplOUd-dCUmQ"/>
+</div>
+<div class="space-y-8">
+<h2 class="font-headline-lg text-headline-lg leading-tight">Neural Rebalancing <br/>in Real-Time</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Our kinetic engine doesn't just watch the market; it feels it. By processing millions of data points per second, AetherWealth projects a future vector for every asset in your portfolio.
+                </p>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Asymmetric Risk Protection</span>
+</li>
+<li class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Quantum-Proof Encryption</span>
+</li>
+<li class="flex items-center gap-4 text-on-surface">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Sub-millisecond Execution</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-dim border-t border-white/5 py-20 relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+<div class="md:col-span-4">
+<div class="font-headline-md text-headline-md font-extrabold text-on-surface mb-6">AetherWealth</div>
+<p class="text-on-surface-variant font-body-md mb-8">Redefining wealth through the lens of artificial intelligence and spatial computing.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors" href="#">
+<img alt="X" class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2Vi6OmW5bfgxI7BFXrJIiTWIBph53r2H6mLsKjIPIhThtVSwu1wepVlwNwbF4hTpqe7qW5FgXp2i3j_VOYPShK9Vya1CCg3TyWwDWKaVbIF1Vhs07XanbBv8Tbq01AtMRPt1v9k4xByGtVdbWwLkRGlRPNJlbrCbWwfeCqaoGUzZiVuWJNq54uHyWfgl0jFnb6dB1e84dHHXRwV1QsLQx9_FyH8Q3A-p1slUI1eCgKUZ6TIpCEBfa9J3wJJ-dm33D0H0ncoVukh8"/>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors" href="#">
+<img alt="LinkedIn" class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6ehuFT-y-bZKNdnaGsVnKQVqfAEKE3kENh3QvldlN2-6GOQsthGMvwMpX3MwauEmCtcTDWo0VTFcU-f9bnXbu8TrlFce4oaRklqZ6keb8cVzhHVNdvsmpNbJC-eheKlL6ddzgw5N0H8_F7opjy35zLBsmXQmhi3_aw2o6T71LDRsQRLWrDaMi8VeSBM6vllr2P5CYd2iayCKabZ-wyhkSanIHpkM8IvgtWc1ADc5FH6NqpgZbYawqr_MWt91II_EUxQjQ45u_ezo"/>
+</a>
+</div>
+</div>
+<div class="md:col-span-2 md:col-start-6">
+<h4 class="font-label-md text-label-md text-on-surface mb-6 uppercase tracking-widest">Platform</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Portfolio</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Markets</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">AI Advisor</a></li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-md text-label-md text-on-surface mb-6 uppercase tracking-widest">Company</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">About Us</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Careers</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Insights</a></li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-label-md text-label-md text-on-surface mb-6 uppercase tracking-widest">Support</h4>
+<ul class="space-y-4">
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Help Center</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Security</a></li>
+<li><a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Legal</a></li>
+</ul>
+</div>
+<div class="col-span-12 mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-on-surface-variant font-body-md text-sm">© 2024 AetherWealth AI. All rights reserved. Member FINRA/SIPC.</p>
+<div class="flex gap-8">
+<a class="text-on-surface-variant text-sm hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant text-sm hover:text-primary" href="#">Risk Disclosure</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    // Intensified 3D Cloud Performance Field Logic
+    const field = document.getElementById('cloud-field');
+    const cloudNumbers = [];
+    const NUM_PARTICLES = 150; // Increased density from 60 to 150
+
+    function createNumber(initialZ = null) {
+        const isProfit = Math.random() > 0.45;
+        const val = (Math.random() * 25 + 0.1).toFixed(Math.random() > 0.7 ? 2 : 1);
+        const text = (isProfit ? '+' : '-') + val + '%';
+        
+        const el = document.createElement('div');
+        el.className = 'cloud-number ' + (isProfit ? 'text-secondary glow-cyan' : 'text-error glow-error');
+        el.innerText = text;
+        
+        // Initial 3D State with more varied depth and proximity
+        const state = {
+            x: (Math.random() - 0.5) * window.innerWidth * 2, // Wider span
+            y: (Math.random() - 0.5) * window.innerHeight * 1.8,
+            z: initialZ !== null ? initialZ : -3000 - (Math.random() * 3000), // Start further back
+            speed: 5 + Math.random() * 25, // More varied and higher speeds
+            fontSize: 12 + Math.random() * 80, // Massive scale variance
+            opacity: 0,
+            el: el
+        };
+        
+        el.style.fontSize = `${state.fontSize}px`;
+        field.appendChild(el);
+        return state;
+    }
+
+    function initField() {
+        for (let i = 0; i < NUM_PARTICLES; i++) {
+            // Distribute initially along the Z axis for immediate density
+            const initialZ = -5000 + (Math.random() * 6000);
+            cloudNumbers.push(createNumber(initialZ));
+        }
+    }
+
+    function animateField() {
+        cloudNumbers.forEach(n => {
+            n.z += n.speed;
+            
+            // Re-spawn logic: recycle elements when they pass the camera
+            if (n.z > 1000) {
+                n.z = -4000 - (Math.random() * 2000);
+                n.x = (Math.random() - 0.5) * window.innerWidth * 2;
+                n.y = (Math.random() - 0.5) * window.innerHeight * 1.8;
+                n.speed = 5 + Math.random() * 25;
+                n.fontSize = 12 + Math.random() * 80;
+                n.el.style.fontSize = `${n.fontSize}px`;
+                n.opacity = 0;
+            }
+
+            // Depth-based opacity and Blur simulation
+            // Fade in from -3000 to -1000, max visibility between -1000 and 600, fade out fast after 600
+            if (n.z < -1000) {
+                n.opacity = Math.max(0, (n.z + 3000) / 2000) * 0.7;
+            } else if (n.z >= -1000 && n.z < 600) {
+                n.opacity = 0.8;
+            } else {
+                n.opacity = Math.max(0, 1 - (n.z - 600) / 400);
+            }
+
+            // Apply 3D Transform
+            n.el.style.transform = `translate3d(${n.x}px, ${n.y}px, ${n.z}px)`;
+            n.el.style.opacity = n.opacity;
+            
+            // Extra visual depth: blur those that are very far or very close
+            const blurVal = Math.abs(n.z) > 2000 ? 2 : (n.z > 800 ? 3 : 0);
+            n.el.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : 'none';
+        });
+        requestAnimationFrame(animateField);
+    }
+
+    // Ticker Logic
+    const ticker = document.getElementById('alpha-ticker');
+    const tickerData = [
+        { name: "BTC/USD", val: "+4.2%", up: true },
+        { name: "ETH/USD", val: "-1.8%", up: false },
+        { name: "SOL/USD", val: "+12.4%", up: true },
+        { name: "GOLD/OZ", val: "+0.5%", up: true },
+        { name: "AI ALPHA", val: "+42.8%", up: true },
+        { name: "TECH-V", val: "-2.4%", up: false },
+        { name: "LIQUID-Q", val: "+8.1%", up: true },
+        { name: "NDX-100", val: "+1.2%", up: true },
+        { name: "USD/JPY", val: "-0.3%", up: false }
+    ];
+
+    function initTicker() {
+        const content = [...tickerData, ...tickerData, ...tickerData, ...tickerData].map(item => `
+            <div class="ticker-item ${item.up ? 'text-secondary' : 'text-error'}">
+                <span class="text-on-surface-variant font-medium">${item.name}</span>
+                <span>${item.val}</span>
+            </div>
+        `).join('');
+        ticker.innerHTML = content;
+    }
+
+    // Interactive Tilt for Cards
+    document.addEventListener('mousemove', (e) => {
+        const cards = document.querySelectorAll('.glass-card');
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const cardX = rect.left + rect.width / 2;
+            const cardY = rect.top + rect.height / 2;
+
+            const angleX = (mouseY - cardY) / 35;
+            const angleY = (cardX - mouseX) / 35;
+
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
+        });
+
+        // Subtly influence cloud particles with mouse
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const moveX = (mouseX - centerX) / 15;
+        const moveY = (mouseY - centerY) / 15;
+        
+        field.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+
+    document.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+        });
+        field.style.transform = `translate3d(0, 0, 0)`;
+    });
+
+    initField();
+    animateField();
+    initTicker();
+</script>
+</body></html>
